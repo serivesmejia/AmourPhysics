@@ -3,9 +3,9 @@ local Stage = require "amour.stage"
 
 local template_stage = class("Stage-Template", Stage)
 
-function template_stage:constructor(stageManager)
+function template_stage:constructor()
 
-    Stage.constructor(self, stageManager) -- don't forget to call superclass constructor
+    Stage.constructor(self) -- don't forget to call superclass constructor
 
 end
 

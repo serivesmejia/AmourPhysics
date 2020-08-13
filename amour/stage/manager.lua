@@ -19,10 +19,12 @@ function StageManager:draw(dt)
     self:getCurrentStage():_draw(dt)
 end
 
-function StageManager:changeStage(stage)
+function StageManager:changeStage(stage, ...)
 
     if type(stage) == "string" then
-        stage = require(stage):new(self)
+        stageObj = require(stage)
+        stageObj.stageManager = self
+        stage = stageObj:new(...)
     end
 
     assert(type(stage) == "string" or type(stage) == "table", "Stage is not a string path or an object (StageManager)")

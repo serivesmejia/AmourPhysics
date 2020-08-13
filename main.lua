@@ -8,6 +8,8 @@ function love.load()
 
     love.window.setTitle("")
 
+    love.graphics.setDefaultFilter('nearest', 'nearest') -- recommended
+
     -- profiling stuff, attaches to love module
     love.profiler = require('lib/profile')
     love.profiler.start()
@@ -15,6 +17,7 @@ function love.load()
 
     -- setting the seed with the current time for better random results
     math.randomseed(os.clock()*100000000000)
+
 
     stageManager = modules.StageManager:new("game.stages.initial_stage", modules)
 

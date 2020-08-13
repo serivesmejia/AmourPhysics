@@ -28,7 +28,7 @@ function Timer:start()
 
     if not (self.started) then
         self.started = true
-        self.endSecs = os.time() + self.timeOutSecs
+        self.endSecs = os.clock() + self.timeOutSecs
     end
 
 end
@@ -45,7 +45,7 @@ function Timer:update(dt)
         self:reset(self.reqResetStart)
     end
 
-    if os.time() >= self.endSecs then
+    if os.clock() >= self.endSecs then
 
         if self.oneShoot then
             if self.hasTimeOuted then

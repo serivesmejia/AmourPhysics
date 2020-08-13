@@ -37,6 +37,38 @@ function RectangleObj:draw()
 
 end
 
+local CircleObj = class("Obj-Circle", StageObject)
+Basic.CircleObj = CircleObj
+
+function CircleObj:constructor(position, rotation, radius, color)
+
+    if not radius then
+        radius = 20
+    end
+
+    StageObject.constructor(self, position, rotation, Geometry.Vector2:new(radius, radius), color)
+
+    self.radius = radius
+
+end
+
+function CircleObj:update()
+
+    self.size:set(self.radius, self.radius)
+
+end
+
+function CircleObj:draw()
+
+    local r, g, b, a = self.color:getDecimal()
+
+    love.graphics.push()
+    love.graphics.setColor(r, g, b, a)
+    love.graphics.circle("fill", self.position.x, self.position.y, self.radius)
+    love.graphics.pop()
+
+end
+
 StaticSpriteObj = class("Obj-StaticSprite", StageObject)
 Basic.StaticSpriteObj = StaticSpriteObj
 

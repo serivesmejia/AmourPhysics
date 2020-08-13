@@ -102,7 +102,7 @@ function StageObject:attachBehavior(behavior)
     behavior.parentObj = self
 
     table.insert(self.behaviors, behavior)
-    behavior:init()
+    behavior:_init()
 
 end
 

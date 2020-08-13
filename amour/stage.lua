@@ -2,14 +2,15 @@ local class = require "lib.lua-oop"
 
 local Stage = class "Stage"
 
-function Stage:constructor(stageManager)
+function Stage:constructor()
 
     self.v.firstUpdate = true
     self.objects = {}
 
     self.stageManager = stageManager
+    self.initialized = false
 
-    self.modules = stageManager.modules
+    self.modules = self.stageManager.modules
     self.modules.declare()
 
 end
@@ -22,6 +23,12 @@ end
 
 function Stage:_init()
 
+    if self.initialized then
+        return
+    end
+
+    self.initialized = true
+
     for i, obj in ipairs(self.objects) do
         obj.parentStage = self
         if obj.enabled then
@@ -32,7 +39,7 @@ function Stage:_init()
     self.mouseObj = self.modules.ObjectsBasic.MouseObj:new()
     self:addObject(self.mouseObj)
 
-    love.physics.setMeter(64)
+    love.physics.setMeter(128)
     self.world = love.physics.newWorld(0, 9.81*love.physics.getMeter(), true)
 
     self:init()
@@ -160,8 +167,8 @@ end
 
 -- JUST SHORTCUTS
 
-function Stage:changeStage(stage)
-    self.stageManager:changeStage(stage)
+function Stage:changeStage(stage, ...)
+    self.stageManager:changeStage(stage, ...)
 end
 
 function Stage:setTimeout(func, timeSecs)

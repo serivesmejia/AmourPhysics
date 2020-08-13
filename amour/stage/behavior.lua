@@ -5,6 +5,21 @@ local Behavior = class "Behavior"
 function Behavior:constructor()
 
     self.isFirstUpdate = true
+    self.initialied = false
+
+end
+
+function Behavior:_init()
+
+    if self.initialized then 
+        return
+    end
+
+    self.initialized = false
+
+    self:getCurrentStage().modules.declare()
+
+    self:init()
 
 end
 
