@@ -11,11 +11,18 @@ end
 
 function Lvl1:init()
 
-    self.rectA = ObjectsBasic.RectangleObj:new(Geometry.Vector2:new(400, 500), nil, Geometry.Vector2:new(50, 100), Color:new(0, 255, 0, 255))
+    self.rectsGame = self:getCurrentStage().rectsGame
+
+    self.rectA = ObjectsBasic.RectangleObj:new(Geometry.Vector2:new(400, 500), nil, Geometry.Vector2:new(50, 100), Color:new(0, 255, 127, 255))
     self:getCurrentStage():addObject(self.rectA)
     
     self.rectARigidBody = BehaviorsPhysics.RigidBody("dynamic", "rectangle", 0.9)
     self.rectA:attachBehavior(self.rectARigidBody)
+
+    table.insert(self.rectsGame, self.rectA)
+
+
+    self:getCurrentStage():setNextLevel("game.levels.level_2")
 
 end
 

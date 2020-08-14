@@ -13,7 +13,7 @@ Math.clip = function(value, min, max)
 end
 
 Math.round = function(value)
-    math.floor((self.orderSize * 1.7)+0.5)
+    return math.floor(value+0.5)
 end
 
 Math.hypot = function(x, y)

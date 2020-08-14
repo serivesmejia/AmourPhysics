@@ -5,7 +5,7 @@ local Behavior = class "Behavior"
 function Behavior:constructor()
 
     self.isFirstUpdate = true
-    self.initialied = false
+    self.initialized = false
 
 end
 

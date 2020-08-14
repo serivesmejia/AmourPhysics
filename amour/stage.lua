@@ -7,7 +7,6 @@ function Stage:constructor()
     self.v.firstUpdate = true
     self.objects = {}
 
-    self.stageManager = stageManager
     self.initialized = false
 
     self.modules = self.stageManager.modules

@@ -48,7 +48,7 @@ end
 function initial_stage:update()
 
     if love.keyboard.isDown("return") then
-        self:changeStage("game.stages.level_stage", "game.levels.level_1")
+        self:changeStage("game.stages.level_stage", "game.levels.level_3")
     end
 
 end
