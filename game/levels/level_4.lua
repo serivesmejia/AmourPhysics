@@ -1,7 +1,7 @@
 local class = require "lib.lua-oop"
 local Behavior = require "amour.stage.behavior"
 
-local Lvl4 = class("Behavior-Lvl2", Behavior)
+local Lvl4 = class("Behavior-Lvl4", Behavior)
 
 function Lvl4:constructor()
 

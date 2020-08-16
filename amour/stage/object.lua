@@ -7,6 +7,10 @@ function StageObject:constructor(position, rotation, size, color, offset)
     self.children = {}
     self.behaviors = {}
 
+    self.zOrder = 0
+
+    self.zSort = function(a,b) return a.zOrder < b.zOrder end
+
     self.isFirstUpdate = true
     self.enabled = true
     self.visible = true
@@ -111,8 +115,9 @@ function StageObject:_update(dt)
     self:updateAbsPosition()
     self:updateAbsRotation()
 
-    self:updateBehaviors(dt)
+    self:sortZChildren()
 
+    self:updateBehaviors(dt)
 
 end
 
@@ -147,6 +152,12 @@ function StageObject:_beforeChange(nextStage)
 end
 
 function StageObject:beforeChange(nextStage) end
+
+function StageObject:sortZChildren()
+
+    table.sort(self.children, self.zSort)
+
+end
 
 function StageObject:attachBehavior(behavior, ...)
 

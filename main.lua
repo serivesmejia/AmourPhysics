@@ -2,7 +2,7 @@ local modules = require "modules"
 
 local stageManager = nil
 
-profilerEnabled = false -- toggle on or off the profiler (wont work changing it on runtime)
+profilerEnabled = true -- toggle on or off the profiler (wont work changing it on runtime)
 
 function love.load()
 
@@ -42,6 +42,6 @@ end
 
 function love.draw()
 
-    stageManager:getCurrentStage():_draw()
+    stageManager:draw()
 
 end

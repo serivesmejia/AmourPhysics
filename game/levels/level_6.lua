@@ -1,15 +1,15 @@
 local class = require "lib.lua-oop"
 local Behavior = require "amour.stage.behavior"
 
-local Lvl5 = class("Behavior-Lvl5", Behavior)
+local Lvl6 = class("Behavior-Lvl6", Behavior)
 
-function Lvl5:constructor()
+function Lvl6:constructor()
 
     Behavior.constructor(self)
 
 end
 
-function Lvl5:init()
+function Lvl6:init()
 
     self.rectPlatform = ObjectsBasic.RectangleObj:new(Geometry.Vector2:new(150, 400), Geometry.Rotation2.fromDegrees(90), Geometry.Vector2:new(50, 150), Color:new(127, 127, 127, 255))
     self:getCurrentStage():addObject(self.rectPlatform)
@@ -38,4 +38,4 @@ function Lvl5:init()
 
 end
 
-return Lvl5
+return Lvl6
