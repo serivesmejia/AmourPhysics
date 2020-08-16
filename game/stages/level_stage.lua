@@ -29,7 +29,7 @@ function level_stage:init()
 
     Core.setBackgroundColor(0, 0, 0, 255) -- recommended to set bg color here
 
-    self.player = ObjectsBasic.CircleObj:new(Geometry.Vector2:new(-20, 500), nil, 20, Color:new(0, 0, 255, 255))
+    self.player = ObjectsBasic.CircleObj:new(Geometry.Vector2:new(-80, 500), nil, 20, Color:new(0, 0, 255, 255))
     self:addObject(self.player)
     self.playerRigidBody = BehaviorsPhysics.RigidBody("dynamic", "circle", 1)
     self.player:attachBehavior(self.playerRigidBody)
@@ -56,11 +56,7 @@ function level_stage:init()
 
     self.rectsGame = {}
 
-    self.lvl = StageObject:new()
-    self:addObject(self.lvl)
-
-    self.lvlBehavior = require(self.pathToLevel):new()
-    self.lvl:attachBehavior(self.lvlBehavior)
+    self:attachBehavior(self.pathToLevel)
 
     self:addObject(ObjectsBasic.FpsObj:new())
 
@@ -193,7 +189,6 @@ end
 function level_stage:enterAnimA()
 
     local pX, pY = self.playerRigidBody.body:getPosition()
-    self.playerRigidBody.body:setPosition(pX-220, pY)
 
     self:setTimeout(function()
 

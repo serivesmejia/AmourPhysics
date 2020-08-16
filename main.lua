@@ -18,7 +18,6 @@ function love.load()
     -- setting the seed with the current time for better random results
     math.randomseed(os.clock()*100000000000)
 
-
     stageManager = modules.StageManager:new("game.stages.initial_stage", modules)
 
 end

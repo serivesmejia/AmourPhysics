@@ -1,6 +1,8 @@
 local class = require "lib.lua-oop"
+
 local Geometry = require "amour.util.math.geometry"
 local Color = require "amour.util.color"
+
 local StageObject = require "amour.stage.object"
 
 local Basic = {}
@@ -18,7 +20,7 @@ end
 
 function RectangleObj:update(dt)
 
-    self.poly, self.drawPoly = GeometryRect.getRectanglePolygon(self.position, self.rotation, self.size, self.offset)
+    self:setPolygon(GeometryRect.getRectanglePolygon(self.absPosition, self.absRotation, self.size, self.offset))
 
 end
 
@@ -64,7 +66,7 @@ function CircleObj:draw()
 
     love.graphics.push()
     love.graphics.setColor(r, g, b, a)
-    love.graphics.circle("fill", self.position.x, self.position.y, self.radius)
+    love.graphics.circle("fill", self.absPosition.x, self.absPosition.y, self.radius)
     love.graphics.pop()
 
 end
@@ -90,7 +92,7 @@ end
 
 function StaticSpriteObj:update()
 
-    self.poly, self.drawPoly = GeometryRect.getRectanglePolygon(self.position, self.rotation, self.size, self.offset)
+    self.poly, self.drawPoly = GeometryRect.getRectanglePolygon(self.absPosition, self.absRotation, self.size, self.offset)
 
 end
 
@@ -101,8 +103,8 @@ function StaticSpriteObj:draw()
     local scaleX, scaleY = Core.getImageScaleForNewDimensions(self.image, self.size.x, self.size.y)
 
     love.graphics.push()
-    love.graphics.translate(self.position.x, self.position.y)
-    love.graphics.rotate(self.rotation:get())
+    love.graphics.translate(self.absPosition.x, self.absPosition.y)
+    love.graphics.rotate(self.absRotation:get())
     love.graphics.setColor(r, g, b, a)
     love.graphics.draw(self.image, 0 - (self.size.x * self:getOffset()), 0 - (self.size.y * self:getOffset()), nil, scaleX, scaleY)
     love.graphics.pop()
@@ -118,6 +120,19 @@ end
 
 -- MISCELANEOUS
 
+
+ParentObj = class("Obj-Parent", StageObject)
+Basic.ParentObj = ParentObj
+
+function ParentObj:constructor()
+
+    local Vector2 = Geometry.Vector2
+    local Rotation2 = Geometry.Rotation2
+
+    StageObject.constructor(self, Vector2:new(0, 0, false), Rotation2:new(0, false), Vector2:new(0, 0, false), Color:new(0, 0, 0, 0))
+
+end
+
 FpsObj = class("Obj-Fps", StageObject)
 Basic.FpsObj = FpsObj
 
@@ -131,7 +146,7 @@ function FpsObj:draw()
 
     love.graphics.push()
     love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
-    love.graphics.print(tostring(love.timer.getFPS()), self.position.x, self.position.y)
+    love.graphics.print(tostring(love.timer.getFPS()), self.absPosition.x, self.absPosition.y)
     love.graphics.pop()
 
 end
@@ -174,7 +189,7 @@ function TextObj:draw()
     love.graphics.push()
     love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
     love.graphics.setNewFont(self.fontSize)
-    love.graphics.print(tostring(self.text), self.position.x, self.position.y)
+    love.graphics.print(tostring(self.text), self.absPosition.x, self.absPosition.y)
     love.graphics.pop()
 
 end

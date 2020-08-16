@@ -16,10 +16,15 @@ end
 
 function Vector2:constructor(x, y, other)
 
-    if other then
+    if other and not (type(other) == "boolean") then
         self.x = other.x
         self.y = other.y
+        self.clonable = true
         return
+    elseif type(other) == "boolean" then
+        self.clonable = other
+    else
+        self.clonable = true
     end
 
     self:set(x, y)
@@ -156,7 +161,11 @@ end
 
 function Vector2:clone()
 
-    return Vector2:new(self.x, self.y)
+    if self.clonable then
+        return Vector2:new(self.x, self.y)
+    else
+        return self
+    end
 
 end
 
@@ -206,11 +215,17 @@ Rotation2.static.fromVector = function(vec, y)
 
 end
 
-function Rotation2:constructor(rad)
+function Rotation2:constructor(rad, clonable)
 
     self.rad = rad
     self.cos = math.cos(rad)
     self.sin = math.sin(rad)
+    
+    if not (clonable == nil) then
+        self.clonable = other
+    else
+        self.clonable = true
+    end
 
 end
 
@@ -222,11 +237,18 @@ function Rotation2:getDegrees()
     return math.deg(self:get())
 end
 
-function Rotation2:set(rad)
-    self.rad = rad
-    self.cos = math.cos(rad)
-    self.sin = math.sin(rad)
+function Rotation2:set(rot)
+
+    if type(rot) == "table" then
+        rot = rot:get()
+    end
+
+    self.rad = rot
+    self.cos = math.cos(rot)
+    self.sin = math.sin(rot)
+
     return self
+
 end
 
 function Rotation2:setDegrees(deg)
@@ -277,7 +299,11 @@ end
 
 function Rotation2:clone()
 
-    return Rotation2:new(self.rad)
+    if self.clonable then
+        return Rotation2:new(self.rad)
+    else
+        return self
+    end
 
 end
 

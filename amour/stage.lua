@@ -5,12 +5,16 @@ local Stage = class "Stage"
 function Stage:constructor()
 
     self.v.firstUpdate = true
-    self.objects = {}
 
     self.initialized = false
 
     self.modules = self.stageManager.modules
     self.modules.declare()
+
+    self.parentObj = ObjectsBasic.ParentObj:new()
+
+    self.parentObj.parentStage = self
+    self.parentObj:_init()
 
 end
 
@@ -28,12 +32,7 @@ function Stage:_init()
 
     self.initialized = true
 
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.enabled then
-            obj:stageInit()
-        end
-    end
+    self.parentObj:_stageInit()
 
     self.mouseObj = self.modules.ObjectsBasic.MouseObj:new()
     self:addObject(self.mouseObj)
@@ -59,12 +58,7 @@ function Stage:_update(dt)
 
     end
 
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.enabled then
-            obj:_update(dt)
-        end
-    end
+    self.parentObj:_update(dt)
 
     self.world:update(dt)
 
@@ -77,12 +71,7 @@ function Stage:firstUpdate() end
 
 function Stage:_firstUpdate()
 
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.enabled then
-            obj:firstStageUpdate()
-        end
-    end
+    self.parentObj:_stageFirstUpdate()
 
     self:firstUpdate()
 
@@ -92,12 +81,7 @@ function Stage:draw() end
 
 function Stage:_draw()
 
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.enabled then
-            obj:_draw()
-        end
-    end
+    self.parentObj:_draw()
 
     self:draw()
 
@@ -111,12 +95,7 @@ end
 
 function Stage:_beforeChange(nextStage)
 
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.enabled then
-            obj:beforeChange()
-        end
-    end
+    self.parentObj:_beforeChange()
 
     self:beforeChange(nextStage)
 
@@ -126,42 +105,26 @@ function Stage:addObject(stageObject)
 
     stageObject.parentStage = self
 
-    stageObject:_init()
-
-    table.insert(self.objects, stageObject)
+    self.parentObj:addChild(stageObject)
 
 end
 
 function Stage:getObject(className)
 
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.class.name == className then
-            return obj
-        end
-    end
-
-    return nil
+    return self.parentObj:getChild(className)
 
 end
 
 function Stage:getObjects(className)
-
-    local objects = {}
-
-    for i, obj in ipairs(self.objects) do
-        obj.parentStage = self
-        if obj.class.name == className then
-            table.insert(objects, obj)
-        end
-    end
-
-    return objects
-
+    return self.parentObj:getChildren(className)
 end
 
 function Stage:getAllObjects()
-    return self.objects
+    return self.parentObj:getAllChildren()
+end
+
+function Stage:attachBehavior(behavior, ...)
+    self.parentObj:attachBehavior(behavior, ...)
 end
 
 -- JUST SHORTCUTS
