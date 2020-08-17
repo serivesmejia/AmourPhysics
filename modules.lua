@@ -19,6 +19,7 @@ modules = {
     Geometry         = require "amour.util.math.geometry",
     GeometryRect     = require "amour.util.math.geometry.rectangle",
 
+    Camera           = require "lib.camera",
     class            = require "lib.lua-oop",
 
     declare = function()
